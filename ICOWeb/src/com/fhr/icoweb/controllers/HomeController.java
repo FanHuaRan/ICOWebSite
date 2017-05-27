@@ -34,26 +34,27 @@ public class HomeController {
 		return "index";
 	}
 	
-	@RequestMapping("/upload")
-	public ResponseEntity<byte[]> uploadImageAndDownIco(MultipartFile file, @RequestParam Integer size,
+	@RequestMapping("/file/upload")
+	public ResponseEntity<byte[]> uploadImageAndDownIco(MultipartFile file,
 			HttpServletRequest request, HttpServletResponse response) {
-		// 无文件
-		if (file.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		ResponseEntity<byte[]> responseEntity = null;
-		try {
-			Image image = ImageIO.read(file.getInputStream());
-			if (size == null) {
-				responseEntity=createZipResonse(file, image);
-			} else {
-				responseEntity=createSingleResonse(file, image,size);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			responseEntity = new ResponseEntity<byte[]>(HttpStatus.BAD_GATEWAY);
-		}
-		return responseEntity;
+		return null;
+//		// 无文件
+//		if (file.isEmpty()) {
+//			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//		}
+//		ResponseEntity<byte[]> responseEntity = null;
+//		try {
+//			Image image = ImageIO.read(file.getInputStream());
+//			if (size == null) {
+//				responseEntity=createZipResonse(file, image);
+//			} else {
+//				responseEntity=createSingleResonse(file, image,size);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			responseEntity = new ResponseEntity<byte[]>(HttpStatus.BAD_GATEWAY);
+//		}
+//		return responseEntity;
 	}
 
 	private ResponseEntity<byte[]> createZipResonse(MultipartFile file, Image image) throws Exception, IOException {
