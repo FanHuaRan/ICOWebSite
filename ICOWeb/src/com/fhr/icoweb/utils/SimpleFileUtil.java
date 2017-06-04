@@ -43,6 +43,15 @@ public class SimpleFileUtil {
 		return extension != null && (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp"));
 	}	
 	/**
+	 * 通过全文件名判断是否是图片类型
+	 * @param extension
+	 * @return
+	 */
+	public static boolean isPictureByFileName(String fileName) {
+		String extension=getExtension(fileName);
+		return extension != null && (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp"));
+	}	
+	/**
 	 * 获取文件名，不带扩展
 	 * @param filename
 	 * @return

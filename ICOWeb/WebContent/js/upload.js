@@ -1,6 +1,7 @@
 (function( $ ){
     // 当domReady的时候开始初始化
     $(function() {
+
             //整个文件上传容器
             var $wrap = $('#uploader'),
 
@@ -161,24 +162,20 @@
             //文件上传路径
             server: 'file/upload',
             // runtimeOrder: 'flash',
-            // server: 'http://liaoxuezhi.fe.baidu.com/webupload/fileupload.php',
-            // server: 'http://www.2betop.net/fileupload.php',
-            //
-
-            // accept: {
-            //     title: 'Images',
-            //     extensions: 'gif,jpg,jpeg,bmp,png',
-            //     mimeTypes: 'image/*'
-            // },
-
+            //接受的文件类型
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/*'
+            },
             // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
             disableGlobalDnd: true,
-            //文件最大数量限制为300个
-            fileNumLimit: 300,
-            //总文件尺寸最大限制为300M
-            fileSizeLimit: 300 * 1024 * 1024,    // 300 M
-            //单文件尺寸最大限制为50M
-            fileSingleSizeLimit: 2 * 1024 * 1024    // 50 M
+            //文件最大数量限制为1个
+            fileNumLimit: 1,
+            //总文件尺寸最大限制为30M
+            fileSizeLimit: 30 * 1024*1024,   
+            //单文件尺寸最大限制为30M
+            fileSingleSizeLimit:  30 * 1024*1024,    
         });
 
         // 添加“添加文件”的按钮，
@@ -187,33 +184,47 @@
             label: '继续添加',
             multiple:false
         });
-
+         //生成UUID
+        function genUUID() {
+            var s = [];
+            var hexDigits = "0123456789abcdef";
+            for (var i = 0; i < 36; i++) {
+                s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+            }
+            s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+            s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+            s[8] = s[13] = s[18] = s[23] = "-";
+            var uuid = s.join("");
+            return uuid;
+        }
          //参数及文件上传封装
-        function uploadFile(keyword,subject,fileType,name,dir,fixName){
-          //固定目录
-          if(dir!=null){
+        function  uploadFile(uuidParam,icosizeParam){
+          if(icosizeParam=="all"){
             uploader.option('formData',{
-                      keyword:keyword,
-                      subject:subject,
-                      fileType:fileType,
-                      name:name,
-                      dir:dir,
-                      fixName:"no"
+                uuid:uuidParam
             });
           }
-          //自动目录
           else{
             uploader.option('formData',{
-                      keyword:keyword,
-                      subject:subject,
-                      fileType:fileType,
-                      name:name,
-                      fixName:fixName
-             });
+                uuid:uuidParam,
+                icosize:icosizeParam
+            });
           }
           uploader.upload();
         }
-
+        //文件下载
+        function downLoadFile(nameParam,uuidParam,icosizeParam){
+            var a = document.createElement('a');
+            var url="";
+            if(icosizeParam!=null){
+                url+="file/download?name="+nameParam+"&uuid="+uuidParam+"&icosize="+icosizeParam;
+            }else{
+                url+="file/download?name="+nameParam+"&uuid="+uuidParam;
+            }
+            a.href = url;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
         // 当有文件添加时 负责view的创建
         function addFile( file ) {
             var $li = $( '<li id="' + file.id + '">' +
@@ -264,19 +275,6 @@
                     if( isSupportBase64 ) {
                         img = $('<img src="'+src+'">');
                         $wrap.empty().append( img );
-                    } else {
-                        $.ajax('../../server/preview.php', {
-                            method: 'POST',
-                            data: src,
-                            dataType:'json'
-                        }).done(function( response ) {
-                            if (response.result) {
-                                img = $('<img src="'+response.result+'">');
-                                $wrap.empty().append( img );
-                            } else {
-                                $wrap.text("预览出错");
-                            }
-                        });
                     }
                 }, thumbnailWidth, thumbnailHeight );
 
@@ -497,17 +495,8 @@
 
         //单个文件上传成功后的回调方法，
         //注意上传成功，不一定服务器一定保存好了相关信息，还要针对返回信息进行处理
-        uploader.uploadSuccess=function(file,response){
-                var isSuccess=response.IsSuccess;
-                //服务器成功保存新消息
-                if(isSuccess){
-                    //处理逻辑
-                }
-                //服务器存储出现错误
-                else{
-                    var unSucFile=response.NoSuccessFile;
-                    //处理逻辑
-                }
+        uploader.onUploadSuccess=function(file,response){
+                downLoadFile(name,uuid,icoSize);
         }
         //单个文件上传进度改变时触发
         uploader.onUploadProgress = function( file, percentage ) {
@@ -590,15 +579,19 @@
             }
 
             if ( state === 'ready' ) {
-                var name=$('#name').val();
-                var subject=$('#subject').val();
-                var keyword=$('#keyword').val();
-                var type=$('#type').val();
-                var dir=$('#dir').val();
-                var fixName=$('#fixName').val();
+                 if(uploader.getFiles().length==0){
+                    alert("请选择文件");
+                    return;
+                 }
+                 name=uploader.getFiles()[0].name;
+                 uuid=genUUID();
+                 icoSize=$("#size").val();
                 //上传
-                uploadFile(keyword,subject,type,name,dir,fixName);
-                //uploader.upload();
+                if(size=="all"){
+                   uploadFile(uuid,null);
+                }else{
+                   uploadFile(uuid,icoSize);
+                }
             } else if ( state === 'paused' ) {
                 uploader.upload();
             } else if ( state === 'uploading' ) {

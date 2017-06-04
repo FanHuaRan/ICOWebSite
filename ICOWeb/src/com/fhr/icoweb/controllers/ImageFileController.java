@@ -20,7 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.fhr.icoweb.services.IcoService;
 import com.fhr.icoweb.utils.SimpleFileUtil;
-
+/**
+ * 图片文件上传下载控制器
+ * @author fhr
+ * @date 2017/06/04 
+ */
 @Controller
 @RequestMapping("/file")
 public class ImageFileController {
@@ -31,22 +35,23 @@ public class ImageFileController {
 	@RequestMapping(value="/upload",method=RequestMethod.POST)
 	public ResponseEntity<byte[]> uploadImageAndDownIco(
 												@RequestParam(value="uuid",required=true) String uuid,
-												@RequestParam(value="size",required=false) Integer size, 
+												@RequestParam(value="size",required=true) int size, 
+												@RequestParam(value="icosize",required=false)Integer icoSize,
+												@RequestParam(value="name",required=false)String name,
 												MultipartFile file,
 												HttpServletRequest request, 
 												HttpServletResponse response) {
-		String fileName=file.getOriginalFilename();
 		// 无文件或者文件不是img
-		if (file.isEmpty()||SimpleFileUtil.isPicture(SimpleFileUtil.getExtension(fileName))) {
+		if (file.isEmpty()||!SimpleFileUtil.isPictureByFileName(name)) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		File icoFile=null;
 		try {
 			Image image = ImageIO.read(file.getInputStream());
-			if (size == null) {
+			if (icoSize == null) {
 				icoFile=imageConvertIco.convertToIco(image, uuid);
 			} else {
-				icoFile=imageConvertIco.convertToIco(image, size, uuid);
+				icoFile=imageConvertIco.convertToIco(image, icoSize, uuid);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -57,24 +62,24 @@ public class ImageFileController {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
-	@RequestMapping("/dowload")
+	@RequestMapping("/download")
 	public ResponseEntity<byte[]> downLoadIco(
 							@RequestParam(value="name",required=true) String name,
 							@RequestParam(value="uuid",required=true) String uuid,
-							@RequestParam(value="size",required=false) Integer size){
+							@RequestParam(value="icosize",required=false) Integer icoSize){
 		byte[] data=null;
 		HttpHeaders headers=new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		//单尺寸
-		if(size==null){
+		if(icoSize!=null){
 			data=imageConvertIco.getBytesFromSingleIco(uuid);
 			headers.set("Content-Disposition", "attachment;fileName=" + name+ ".ico");		}
 		else{
-			data=imageConvertIco.getBytesFromSingleIco(uuid);
+			data=imageConvertIco.getBytesFromIcoZip(uuid);
 			headers.set("Content-Disposition", "attachment;fileName=" + name + ".zip");
 		}
 		if(data==null){
-			return new ResponseEntity<byte[]>(HttpStatus.EXPECTATION_FAILED);
+			return new ResponseEntity<byte[]>(HttpStatus.NOT_FOUND);
 		}else{
 			return new ResponseEntity<byte[]>(data, headers, HttpStatus.OK);
 		}

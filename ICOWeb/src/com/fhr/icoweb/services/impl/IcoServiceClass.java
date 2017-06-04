@@ -14,7 +14,11 @@ import com.fhr.icoweb.services.IcoService;
 import com.fhr.icoweb.utils.ImageUtil;
 import com.fhr.icoweb.utils.ZipUtils;
 
-
+/**
+ * ICO业务实现
+ * @author fhr
+ * @date 2017/06/04 
+ */
 @Service
 public class IcoServiceClass implements IcoService {
 
@@ -24,8 +28,7 @@ public class IcoServiceClass implements IcoService {
 	public File convertToIco(Image image, String uuid) {
 		for (int i = 0; i < 4; i++) {
 			int size = (int) Math.pow(2, i + 4);
-			if (!ImageUtil.convertImgToIcoByHeight(image, size,
-					String.format("%s\\%s\\%d.ico", IcoConfig.ICO_ROOT, uuid, size))) {
+			if (!ImageUtil.convertImgToIco(image, size,size,String.format("%s\\%s\\%d.ico", IcoConfig.ICO_ROOT, uuid, size))) {
 				logger.error("文件转换失败：" + uuid);
 				return null;
 			}
@@ -35,8 +38,9 @@ public class IcoServiceClass implements IcoService {
 
 	@Override
 	public File convertToIco(Image image, int size, String uuid) {
-		if (ImageUtil.convertImgToIcoByHeight(image, size, String.format("%s\\%s.ico", IcoConfig.ICO_ROOT, uuid))) {
-			return new File(String.format("%s\\%s.ico", IcoConfig.ICO_ROOT, uuid));
+		String icoFileName=String.format("%s\\%s.ico", IcoConfig.ICO_ROOT, uuid);
+		if (ImageUtil.convertImgToIco(image, size,size,icoFileName)) {
+			return new File(icoFileName);
 		} else {
 			logger.error("文件转换失败：" + uuid);
 			return null;

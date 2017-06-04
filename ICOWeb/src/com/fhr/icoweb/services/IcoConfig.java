@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.fhr.icoweb.services.impl.PropertiesUtil;
+import com.fhr.icoweb.utils.PropertiesUtil;
 /**
- * 附件存储配置对象
+ * icp存储配置对象
  * @author fhr
  * @date 2017/05/23
  */
@@ -19,7 +19,7 @@ public class IcoConfig {
 	/**
 	 * 配置文件相对路径
 	 */
-	public static final String CONFIG_PATH="imagefilesconfig.properties";
+	public static final String CONFIG_NAME="imagefilesconfig.properties";
 	/**
 	 * ico保存的根路径 缺省为网站根目录
 	 */
@@ -32,7 +32,7 @@ public class IcoConfig {
 		 WebApplicationContext wac = ContextLoader.getCurrentWebApplicationContext();  
 		 ServletContext servletContext=wac.getBean(ServletContext.class);
 		 String rootPath=servletContext.getRealPath("/");
-		Properties properties=getProperties();
+		Properties properties=getProperties(rootPath);
 		if(properties!=null){
 			ICO_ROOT=properties.getProperty("ico.root");
 			DELETEICO=Boolean.valueOf(properties.getProperty("deleteico"));
@@ -46,9 +46,9 @@ public class IcoConfig {
 	 * 获取配置文件对象
 	 * @return
 	 */
-	public static Properties getProperties() {
+	public static Properties getProperties(String webRootPath) {
 		try {
-			Properties properties = PropertiesUtil.getPropertiesObj(CONFIG_PATH);
+			Properties properties = PropertiesUtil.getPropertiesObj(String.format("%s\\WEB-INF\\classes\\%s",webRootPath,CONFIG_NAME));
 			return properties;
 		} catch (IOException e) {
 			e.printStackTrace();

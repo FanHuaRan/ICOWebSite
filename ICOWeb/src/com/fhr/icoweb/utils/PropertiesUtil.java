@@ -1,4 +1,4 @@
-package com.fhr.icoweb.services.impl;
+package com.fhr.icoweb.utils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

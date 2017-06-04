@@ -55,9 +55,23 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-
+   
     <!-- Begin page content -->
     <div class="container">
+        <!--文件信息-->
+        <div>
+              <div class="form-group">
+                    <label class="col-lg-4 control-label">上传尺寸</label>
+                    <select id="size" class="form-control" name="size">
+                        <option value=128 selected="selected">128</option>
+                        <option value=64>64</option>
+                        <option value=32>32</option>
+                        <option value=32>32</option>
+                        <option value="all">全尺寸</option>
+                    </select>
+             </div>
+             <!--要支持单文件上传与多文件上传的操作方式-->
+        </div>
     	   <!--文件区-->
 	       <div id="wrapper">
 	        <div id="container">

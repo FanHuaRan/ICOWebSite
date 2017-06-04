@@ -74,7 +74,7 @@ public class ImageUtil {
 	public static boolean convertImgToIco(Image orginImg, int width, int height, String outPutFileName) {
 		Image newImg = compressPhoto(orginImg, width, height);
 		try {
-			ICOEncoder.write((BufferedImage) newImg, new File(outPutFileName));
+			saveImgToIcoFile(outPutFileName, newImg);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -91,7 +91,7 @@ public class ImageUtil {
 	public static boolean convertImgToIcoByWidth(Image orginImg, int width, String outPutFileName) {
 		Image newImg = compressPhotoByWidth(orginImg, width);
 		try {
-			ICOEncoder.write((BufferedImage) newImg, new File(outPutFileName));
+			saveImgToIcoFile(outPutFileName, newImg);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -108,7 +108,7 @@ public class ImageUtil {
 	public static boolean convertImgToIcoByHeight(Image orginImg, int height, String outPutFileName) {
 		Image newImg = compressPhotoByHeight(orginImg, height);
 		try {
-			ICOEncoder.write((BufferedImage) newImg, new File(outPutFileName));
+			saveImgToIcoFile(outPutFileName, newImg);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -125,11 +125,18 @@ public class ImageUtil {
 	public static boolean convertImgToIcoByScale(Image orginImg, float scale, String outPutFileName) {
 		Image newImg = compressPhotoByScale(orginImg, scale);
 		try {
-			ICOEncoder.write((BufferedImage) newImg, new File(outPutFileName));
+			saveImgToIcoFile(outPutFileName, newImg);
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
+	}
+	private static void saveImgToIcoFile(String outPutFileName, Image newImg) throws IOException {
+		File outPutFile=new File(outPutFileName);
+		if(!outPutFile.getParentFile().exists()){
+			outPutFile.getParentFile().mkdirs();
+		}
+		ICOEncoder.write((BufferedImage) newImg, outPutFile);
 	}
 }

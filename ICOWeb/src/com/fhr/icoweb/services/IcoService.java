@@ -3,7 +3,7 @@ package com.fhr.icoweb.services;
 import java.awt.Image;
 import java.io.File;
 /**
- * 图片转换ICO业务接口
+ * ICO业务接口
  * @author fhr
  * @date 2017/05/25 
  */
