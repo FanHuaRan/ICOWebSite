@@ -6,9 +6,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>ICO在线小工具</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ICO在线小工具">
+    <meta name="description" content="ICO在线转换小工具">
+    <meta name="key" content="ICO,在线,转换,小工具">
     <meta name="author" content="范华燃">
-
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--WepUploader core css-->
@@ -17,13 +17,11 @@
     <link  href="css/style.css" rel="stylesheet" />
      <!-- Custom styles for this bootstrap template -->
     <link href="css/sticky-footer-navbar.css" rel="stylesheet">
-
  </head>
-
  <body>
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <!-- 头部 navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -36,11 +34,11 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li class="active"><a href="#">主页</a></li>
+            <li><a href="#about">关于</a></li>
+            <li><a href="#contact">联系</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">其它 <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#">Action</a></li>
                 <li><a href="#">Another action</a></li>
@@ -60,16 +58,20 @@
     <div class="container">
         <!--文件信息-->
         <div>
-              <div class="form-group">
-                    <label class="col-lg-4 control-label">上传尺寸</label>
-                    <select id="size" class="form-control" name="size">
-                        <option value=128 selected="selected">128</option>
-                        <option value=64>64</option>
-                        <option value=32>32</option>
-                        <option value=32>32</option>
-                        <option value="all">全尺寸</option>
-                    </select>
+            <div class="row">
+              <div class="form-group col-sm-6">
+                    <label class="control-label col-sm-2" style="margin-top: 8px;">上传尺寸:</label>
+                    <div class="col-sm-4">
+                      <select id="size" class="form-control" name="size">
+                          <option value=128 selected="selected">128X128</option>
+                          <option value=64>64X64</option>
+                          <option value=32>32X32</option>
+                          <option value=16>16X16</option>
+                          <option value="all">全尺寸</option>
+                      </select>
+                    </div>
              </div>
+            </div>
              <!--要支持单文件上传与多文件上传的操作方式-->
         </div>
     	   <!--文件区-->
@@ -96,7 +98,39 @@
 	            </div>
 		        </div>
 		    </div>
-    </div>
+
+      <div class="row">
+        <div class="col-sm-6" style="margin:o auto;">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">注意事项</h3>
+            </div>
+            <div class="panel-body">
+                <ul>
+                  <li>Cras justo odio</li>
+                  <li>Dapibus ac facilisis in</li>
+                  <li>Morbi leo risus</li>
+                  <li>Porta ac consectetur ac</li>
+                  <li>Vestibulum at eros</li>
+                </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="col-sm-6">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">说明</h3>
+            </div>
+            <div class="panel-body">
+                <div class="well">
+		        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.</p>
+		      </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
 
     <div class="footer">
       <div class="container">
