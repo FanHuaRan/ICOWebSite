@@ -14,7 +14,7 @@ public interface IcoService {
 	 * @param image
 	 * @return
 	 */
-	File convertToIco(Image image,String uuid);
+	File convertToIco(Image image,String name,String uuid);
 	/**
 	 * 将image转换为指定size的ico,
 	 * 返回该图片的文件file null则代表保存出错
@@ -22,17 +22,17 @@ public interface IcoService {
 	 * @param size
 	 * @return 
 	 */
-	File convertToIco(Image image,int size,String uuid);
+	File convertToIco(Image image,String name,int size,String uuid);
 	/**
 	 * 获取ico的字节 单个
 	 * @param uuid
 	 * @return
 	 */
-	byte[] getBytesFromSingleIco(String uuid);
+	byte[] getBytesFromSingleIco(String uuid,String name);
 	/**
 	 * 获取ico压缩包字节
 	 * @param uuid
 	 * @return
 	 */
-	byte[] getBytesFromIcoZip(String uuid);
+	byte[] getBytesFromIcoZip(String uuid,String name);
 }

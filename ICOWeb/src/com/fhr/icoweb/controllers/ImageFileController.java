@@ -49,9 +49,9 @@ public class ImageFileController {
 		try {
 			Image image = ImageIO.read(file.getInputStream());
 			if (icoSize == null) {
-				icoFile=imageConvertIco.convertToIco(image, uuid);
+				icoFile=imageConvertIco.convertToIco(image, name,uuid);
 			} else {
-				icoFile=imageConvertIco.convertToIco(image, icoSize, uuid);
+				icoFile=imageConvertIco.convertToIco(image, name,icoSize, uuid);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,10 +72,10 @@ public class ImageFileController {
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		//单尺寸
 		if(icoSize!=null){
-			data=imageConvertIco.getBytesFromSingleIco(uuid);
+			data=imageConvertIco.getBytesFromSingleIco(uuid,name);
 			headers.set("Content-Disposition", "attachment;fileName=" + name+ ".ico");		}
 		else{
-			data=imageConvertIco.getBytesFromIcoZip(uuid);
+			data=imageConvertIco.getBytesFromIcoZip(uuid,name);
 			headers.set("Content-Disposition", "attachment;fileName=" + name + ".zip");
 		}
 		if(data==null){

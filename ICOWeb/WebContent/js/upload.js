@@ -152,7 +152,7 @@
             pick: {
                 id: '#filePicker',
                 label: '点击选择文件',
-                multiple:false
+                multiple:true
             },
             //拖拽区域
             dnd: '#dndArea',
@@ -170,19 +170,19 @@
             },
             // 禁掉全局的拖拽功能。这样不会出现图片拖进页面的时候，把图片打开。
             disableGlobalDnd: true,
-            //文件最大数量限制为1个
-            fileNumLimit: 1,
-            //总文件尺寸最大限制为30M
-            fileSizeLimit: 30 * 1024*1024,   
-            //单文件尺寸最大限制为30M
-            fileSingleSizeLimit:  30 * 1024*1024,    
+            //文件最大数量限制为5个
+            fileNumLimit: 5,
+            //总文件尺寸最大限制为100M
+            fileSizeLimit: 100 * 1024*1024,   
+            //单文件尺寸最大限制为20M
+            fileSingleSizeLimit:  20 * 1024*1024,    
         });
 
         // 添加“添加文件”的按钮，
         uploader.addButton({
             id: '#filePicker2',
             label: '继续添加',
-            multiple:false
+            multiple:true
         });
          //生成UUID
         function genUUID() {
@@ -199,7 +199,7 @@
         }
          //参数及文件上传封装
         function  uploadFile(uuidParam,icosizeParam){
-          if(icosizeParam=="all"){
+          if(icosizeParam==null){
             uploader.option('formData',{
                 uuid:uuidParam
             });
@@ -224,6 +224,13 @@
             a.href = url;
             a.click();
             window.URL.revokeObjectURL(url);
+        }
+        //清除文件封装
+        function removeFiles(){
+            var files=uploader.getFiles();
+            for(var i=0;i<files.length;i++){
+                uploader.remove(files[i],true);
+            }
         }
         // 当有文件添加时 负责view的创建
         function addFile( file ) {
@@ -438,7 +445,12 @@
             }
 
             $upload.removeClass( 'state-' + state );
-            $upload.addClass( 'state-' + val );
+            if(val=="continue"||val=="ready"){
+                $upload.addClass( 'state-ready');
+            }
+            else{
+                $upload.addClass( 'state-'+val);
+            }
             state = val;
 
             switch ( state ) {
@@ -488,6 +500,13 @@
                         location.reload();
                     }
                     break;
+                case "continue":
+                    $placeHolder.addClass( 'element-invisible' );
+                    $( '#filePicker2' ).removeClass( 'element-invisible');
+                    $queue.show();
+                    $statusBar.removeClass('element-invisible');
+                    uploader.refresh();
+                    break;
             }
 
             updateStatus();
@@ -496,7 +515,13 @@
         //单个文件上传成功后的回调方法，
         //注意上传成功，不一定服务器一定保存好了相关信息，还要针对返回信息进行处理
         uploader.onUploadSuccess=function(file,response){
-                downLoadFile(name,uuid,icoSize);
+                downLoadFile(file.name,uuid,icoSize);
+        }
+        //单个文件上传失败后的回调方法，
+        uploader.onUploadError=function(file,reason){
+            var text="";
+            text+=file.name+"上传出错,原因:"+reason;
+            alert(text)
         }
         //单个文件上传进度改变时触发
         uploader.onUploadProgress = function( file, percentage ) {
@@ -583,15 +608,13 @@
                     alert("请选择文件");
                     return;
                  }
-                 name=uploader.getFiles()[0].name;
                  uuid=genUUID();
                  icoSize=$("#size").val();
                 //上传
-                if(size=="all"){
-                   uploadFile(uuid,null);
-                }else{
-                   uploadFile(uuid,icoSize);
+                if(icoSize=="all"){
+                   icoSize=null;
                 }
+                uploadFile(uuid,icoSize);
             } else if ( state === 'paused' ) {
                 uploader.upload();
             } else if ( state === 'uploading' ) {
@@ -604,10 +627,11 @@
             uploader.retry();
         } );
 
-        //忽略上传失败文件
+        //忽略上传失败文件,重新来
         $info.on( 'click', '.ignore', function() {
-            alert( 'todo' );
-        } );
+            removeFiles();
+            setState("continue");
+        });
 
         $upload.addClass( 'state-' + state );
 

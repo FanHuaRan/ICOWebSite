@@ -40,6 +40,7 @@ public class SimpleFileUtil {
 	 * @return
 	 */
 	public static boolean isPicture(String extension) {
+		extension=extension.toLowerCase();
 		return extension != null && (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp"));
 	}	
 	/**
@@ -48,8 +49,9 @@ public class SimpleFileUtil {
 	 * @return
 	 */
 	public static boolean isPictureByFileName(String fileName) {
-		String extension=getExtension(fileName);
-		return extension != null && (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp"));
+		String extension=getExtension(fileName).toLowerCase();
+		return extension != null && (extension.equals("jpg") || extension.equals("png") || extension.equals("bmp")
+				|| extension.equals("jpeg") || extension.equals("gif"));
 	}	
 	/**
 	 * 获取文件名，不带扩展

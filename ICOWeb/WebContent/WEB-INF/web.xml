@@ -83,7 +83,10 @@
     <servlet-name>default</servlet-name>
     <url-pattern>*.woff</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>*.ico</url-pattern>
+  </servlet-mapping>
   <!-- web前端控制器 可以返回视图 同时也支持返回json-->
   <servlet>
     <servlet-name>springweb</servlet-name>

@@ -7,8 +7,9 @@
 <title>ICO在线小工具</title>
  <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="ICO在线转换小工具">
-    <meta name="key" content="ICO,在线,转换,小工具">
+    <meta name="keys" content="ICO,在线,转换,小工具">
     <meta name="author" content="范华燃">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" /> 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!--WepUploader core css-->
@@ -40,13 +41,8 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">其它 <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
+                <li><a href="https://github.com/FanHuaRan/ICOWebSite">github</a></li>
+                <li><a href="#">其他工具地址</a></li>
               </ul>
             </li>
           </ul>
@@ -63,27 +59,25 @@
                     <label class="control-label col-sm-2" style="margin-top: 8px;">上传尺寸:</label>
                     <div class="col-sm-4">
                       <select id="size" class="form-control" name="size">
-                          <option value=128 selected="selected">128X128</option>
-                          <option value=64>64X64</option>
+                          <option value=16 selected="selected">16X16</option>
                           <option value=32>32X32</option>
-                          <option value=16>16X16</option>
+                          <option value=64>64X64</option>
+                          <option value=128 >128X128</option>
                           <option value="all">全尺寸</option>
                       </select>
                     </div>
              </div>
             </div>
-             <!--要支持单文件上传与多文件上传的操作方式-->
         </div>
     	   <!--文件区-->
 	       <div id="wrapper">
 	        <div id="container">
 	            <!--头部，相册选择和格式选择-->
-
 	            <div id="uploader">
 	                <div class="queueList">
 	                    <div id="dndArea" class="placeholder">
 	                        <div id="filePicker"></div>
-	                        <p>或将文件拖到这里，最多可选300个文件</p>
+	                        <p>或将图片拖到这里，最多可选5张图片文件</p>
 	                    </div>
 	                </div>
 	                <div class="statusBar" style="display:none;">
@@ -92,7 +86,9 @@
 	                        <span class="percentage"></span>
 	                    </div><div class="info"></div>
 	                    <div class="btns">
-	                        <div id="filePicker2"></div><div class="uploadBtn">开始上传</div>
+	                        <div id="filePicker2"></div>
+                          <!--<div class="element-invisible">清空文件</div>-->
+                          <div class="uploadBtn">开始上传</div>
 	                    </div>
 	                </div>
 	            </div>
@@ -107,11 +103,10 @@
             </div>
             <div class="panel-body">
                 <ul>
-                  <li>Cras justo odio</li>
-                  <li>Dapibus ac facilisis in</li>
-                  <li>Morbi leo risus</li>
-                  <li>Porta ac consectetur ac</li>
-                  <li>Vestibulum at eros</li>
+                  <li>原始图片必须为gif,jpg,jpeg,bmp,png格式</li>
+                  <li>原始图片文件大小需要小于30M</li>
+                  <li>原始图片长宽最好相等</li>
+                  <li>选择文件上传后即可在线生成</li>
                 </ul>
             </div>
           </div>
@@ -124,7 +119,7 @@
             </div>
             <div class="panel-body">
                 <div class="well">
-		        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed diam eget risus varius blandit sit amet non magna. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Cras mattis consectetur purus sit amet fermentum. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean lacinia bibendum nulla sed consectetur.</p>
+		        <p>ICOWebSite是一个开源免费的在线ico转换工具，支持gif,jpg,jpeg,bmp,png多种格式，可以同时上传多个图片文件，选择文件上传后即可在线生成，源码地址：https://github.com/FanHuaRan/ICOWebSite</p>
 		      </div>
             </div>
           </div>
